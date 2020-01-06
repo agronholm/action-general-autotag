@@ -13,8 +13,10 @@ async function run() {
     let content = fs.readFileSync(filePath)
     let regex = new RegExp(core.getInput('extraction_regex'))
     let matches = String(content).match(regex)
-    if (!matches)
-      return core.setFailed(`no match was found for the regex '${regex.toString()}'.`)
+    if (!matches) {
+      core.warning(`no match was found for the regex '${regex.toString()}'.`)
+      return
+    }
 
     let version = matches[matches.length - 1]
     let format = core.getInput('tag_format', { required: false }).trim()
